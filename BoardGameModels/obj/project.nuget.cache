@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "xxF877qbPO4//wDnH7yFyGD3dkug6E1ER2XnGhvpchK2S1Ks0eWdQ6yXy4SbQikGrSCO93vunAdQ71SlNVY+9w==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\SimonVG\\source\\repos\\Boardgame\\BoardGameModels\\BoardGameModels.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1803",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "You are running the 'restore' operation with an 'HTTP' source, 'http://prods-tfs:8080/Pragma/_packaging/PragmaNuGet/nuget/v3/index.json'. Non-HTTPS access will be removed in a future version. Consider migrating to an 'HTTPS' source."
+    }
+  ]
+}

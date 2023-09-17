@@ -1,0 +1,76 @@
+﻿@page "/fetchdata"
+@using BoardGameUI.Data
+@using BoardGameModels
+@inject BoardGameService BoardGameService
+
+<PageTitle>Search Board Games</PageTitle>
+
+<div style="display: flex; align-items: center; justify-content: space-between;">
+	<h1>Search Board Games</h1>
+	<div style="display: flex; align-items: center;">
+		<input type="text" style="width: 200px;" @bind="searchText" placeholder="Search" @onkeypress="HandleKeyPress">
+		<button style="width: 50px; height: 50px" @onclick="Search" type="button">
+			<i style="width: 50px;" class="fas fa-search"></i>
+			<span style="width: 50px;" class="bi bi-search"></span>
+			<i style="width: 50px;" class="material-icons"></i>
+		</button>
+	</div>
+</div>
+
+
+@if (searchItems == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Year Published</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var searchItem in searchItems)
+            {
+                <tr>
+                    <NavLink href=@string.Format("/boardGame/{0}", @searchItem.Id)>
+                        @searchItem.Id
+	                </NavLink>
+                    <td>@searchItem.Name</td>
+                    <td>@searchItem.YearPublished</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<BoardGame>? searchItems;
+	private string searchText = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        searchItems = await BoardGameService.SearchBoardGames("Everdell");
+    }
+
+	private void HandleKeyPress(KeyboardEventArgs e)
+	{
+		if (e.Key == "Enter")
+		{
+			Search();
+		}
+	}
+
+	private async void Search()
+	{
+		if (!string.IsNullOrEmpty(searchText))
+		{
+			searchItems = await BoardGameService.SearchBoardGames(searchText);
+
+			StateHasChanged();
+		}
+	}
+}

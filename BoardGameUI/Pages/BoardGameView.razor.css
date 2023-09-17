@@ -1,0 +1,27 @@
+﻿.rating-display[data-value="8"],
+.rating-display[data-value="9"],
+.rating-display[data-value="10"] {
+    font-weight: bold;
+    color: #49beb7;
+}
+
+.rating-display[data-value="6"],
+.rating-display[data-value="7"] {
+    font-weight: bold;
+    color: #facf5a;
+}
+
+.rating-display[data-value="0"],
+.rating-display[data-value="1"],
+.rating-display[data-value="2"],
+.rating-display[data-value="3"],
+.rating-display[data-value="4"],
+.rating-display[data-value="5"] {
+    font-weight: bold;
+    color: #ff5959;
+}
+
+.auto-size {
+    display: inline-block;
+    padding: 5px;
+}

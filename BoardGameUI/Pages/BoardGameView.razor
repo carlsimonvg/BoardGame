@@ -1,0 +1,54 @@
+﻿@page "/boardGame/{boardGameId:int}"
+@using BoardGameUI.Data
+@using BoardGameModels
+@inject BoardGameService BoardGameService
+
+@if (boardGame != null)
+{
+	<h3>@boardGame.Name</h3>
+
+	<hr/>
+
+	<div class="col-12 row">
+
+
+		<div style="display: flex; -ms-align-items: center; -o-align-items: center; -webkit-align-items: center; align-items: center;">
+			<img src="@boardGame.ImageUrl" alt="Your Image" style="max-width: 500px; max-height: 500px; margin-right: 20px;">
+			<ul>
+				<li>
+					Rating: <div class="rating-display auto-size" data-value="@boardGame.Rating.ToString("F0")">@boardGame.Rating.ToString("F2")</div>
+				</li>
+				<li>
+					Difficulty: @boardGame.Weight.ToString("F1") / 5
+				</li>
+				<li>
+					Max Players: @boardGame.MaxPlayers
+				</li>
+				<li>
+					Min Players: @boardGame.MinPlayers
+				</li>
+				<li>
+					Play Time: @boardGame.PlayTime minutes
+				</li>
+				<li>
+					Type: @(boardGame.Type.GetDisplayName())
+				</li>
+				<li>
+					<p>@boardGame.Description</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+}
+
+@code {
+	private BoardGame? boardGame;
+
+	[Parameter]
+	public int boardGameId { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		boardGame = await BoardGameService.GetBoardGameAsync(boardGameId);
+	}
+}
