@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Serialization;
 
 namespace BoardGameModels
@@ -6,8 +7,9 @@ namespace BoardGameModels
     public class BoardGame
     { 
         public ItemType Type { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
-        public string? Name { get; set; }
+		public string? Name { get; set; }
         public string? Description { get; set; }
         public int MinPlayers { get; set; }
         public int MaxPlayers { get; set; }
@@ -17,8 +19,6 @@ namespace BoardGameModels
         public float Rating { get; set; }
         public float Weight { get; set; }
         public int VideoTotal { get; set; }
-        public bool WishList { get; set; }
-        public bool Owned { get; set; }
     }
 
     public enum ItemType

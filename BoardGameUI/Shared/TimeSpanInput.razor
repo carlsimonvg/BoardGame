@@ -1,0 +1,36 @@
+﻿<div class="form-group row">
+	<label class="col-form-label col-md-4" for="@Id">@Label</label>
+	<div class="col-md-7">
+		<label for="@IdMinutes">H</label>
+		<input type="number" id="@IdHours" @bind="Hours" />
+		<label for="@IdMinutes">M</label>
+		<input type="number" id="@IdMinutes" @bind="Minutes" />
+	</div>
+</div>
+@code {
+	[Parameter] public string Label { get; set; }
+	[Parameter] public TimeSpan Value { get; set; }
+	[Parameter] public EventCallback<TimeSpan> ValueChanged { get; set; }
+
+	private int Hours
+	{
+		get => (int)Value.TotalHours;
+		set => UpdateValue(value, Minutes);
+	}
+
+	private int Minutes
+	{
+		get => Value.Minutes;
+		set => UpdateValue(Hours, value);
+	}
+
+	private string Id => $"timeSpanInput_{Guid.NewGuid()}";
+	private string IdHours => $"{Id}_hours";
+	private string IdMinutes => $"{Id}_minutes";
+
+	private void UpdateValue(int hours, int minutes)
+	{
+		Value = TimeSpan.FromHours(hours) + TimeSpan.FromMinutes(minutes);
+		ValueChanged.InvokeAsync(Value);
+	}
+}

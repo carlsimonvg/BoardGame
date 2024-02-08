@@ -10,6 +10,8 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = BoardGameUI
 build_property.RootNamespace = BoardGameUI
 build_property.ProjectDir = C:\Users\SimonVG\source\repos\Boardgame\BoardGameUI\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
@@ -20,20 +22,28 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/SimonVG/source/repos/Boardgame/BoardGameUI/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+[C:/Users/SimonVG/source/repos/Boardgame/BoardGameUI/Pages/FetchDataView.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhVmlldy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/SimonVG/source/repos/Boardgame/BoardGameUI/Pages/FetchData.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
+[C:/Users/SimonVG/source/repos/Boardgame/BoardGameUI/Pages/Login/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW5cTG9naW4ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/SimonVG/source/repos/Boardgame/BoardGameUI/Pages/Index.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+[C:/Users/SimonVG/source/repos/Boardgame/BoardGameUI/Pages/Login/SignUp.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW5cU2lnblVwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/SimonVG/source/repos/Boardgame/BoardGameUI/Shared/SurveyPrompt.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
+[C:/Users/SimonVG/source/repos/Boardgame/BoardGameUI/Pages/PlayerView.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGxheWVyVmlldy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SimonVG/source/repos/Boardgame/BoardGameUI/Pages/PlayView.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGxheVZpZXcucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SimonVG/source/repos/Boardgame/BoardGameUI/Pages/WishListView.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2lzaExpc3RWaWV3LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/SimonVG/source/repos/Boardgame/BoardGameUI/_Imports.razor]
@@ -51,6 +61,10 @@ build_metadata.AdditionalFiles.CssScope = b-fkzjzhlk6t
 [C:/Users/SimonVG/source/repos/Boardgame/BoardGameUI/Shared/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-fj94yprvwa
+
+[C:/Users/SimonVG/source/repos/Boardgame/BoardGameUI/Shared/TimeSpanInput.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFRpbWVTcGFuSW5wdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-iksdj11z0j
 
 [C:/Users/SimonVG/source/repos/Boardgame/BoardGameUI/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s

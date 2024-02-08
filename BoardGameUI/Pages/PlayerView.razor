@@ -1,0 +1,119 @@
+﻿@page "/Player"
+@using BoardGameUI.Services
+@using BoardGameModels
+@inject NavigationManager NavigationManager
+@inject IWishListService<Player> wishListService
+@inject IUserService userService
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Players</PageTitle>
+
+<AuthorizeView>
+	<NotAuthorized>
+		<p><em>Please Login to use functionality...</em></p>
+	</NotAuthorized>
+
+	<Authorized>
+		<div style="display: flex; align-items: center; justify-content: space-between;">
+			<h1>Players</h1>
+		</div>
+
+		@if (players == null)
+		{
+			<p><em>Loading...</em></p>
+		}
+		else
+		{
+			<div class="row">
+				<div class="col-md-6">
+					<!-- Left Column for Data Input -->
+					<h4>Add Player</h4>
+					<EditForm Model="@newPlayer" OnValidSubmit="@AddPlayer">
+						<ChildContent Context="playerContext">
+							<DataAnnotationsValidator/>
+							<div class="form-group">
+								<label for="nameInput">Name</label>
+								<input id="nameInput" class="form-control" @bind="newPlayer.Name"/>
+							</div>
+							<div class="form-group">
+								<label for="totalWonInput">Total Won</label>
+								<input id="totalWonInput" class="form-control" @bind="newPlayer.TotalWon"/>
+							</div>
+							<br>
+							<div class="col-12 row">
+								<div class="col-md-6">
+									<input type="submit" class="form-control btn btn-primary" style="width: 100px; padding: 10px;" value="Save"/>
+								</div>
+							</div>
+
+							<br>
+						</ChildContent>
+					</EditForm>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<!-- Right Column for Grid -->
+					<br><h4>Player Grid</h4><br>
+					<table class="table table-bordered">
+						<thead>
+						<tr>
+							<th>Name</th>
+								<th>Total Won</th>
+								<th>Delete Play</th>
+						</tr>
+						</thead>
+						<tbody>
+						@foreach (var player in players)
+						{
+							<tr>
+								<td>@player.Name</td>
+								<td>@player.TotalWon</td>
+								<td>
+										<button @onclick="() => DeletePlayer(player.Id)">
+										<span class="oi oi-trash" aria-hidden="true" title="Delete this player"></span>
+									</button>
+								</td>
+							</tr>
+						}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		}
+	</Authorized>
+</AuthorizeView>
+
+@code {
+	private List<Player>? players;
+	private Player newPlayer = new Player();
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (players == null)
+		{
+			players = await wishListService.GetAllAsync("Player/GetPlayers");
+		}
+		await base.OnInitializedAsync();
+	}
+
+	private async void Refresh()
+	{
+		players = await wishListService.GetAllAsync("Player/GetPlayers");
+		StateHasChanged();
+	}
+
+	private async Task AddPlayer()
+	{
+		await wishListService.SaveAsync("Player/CreatePlayer", newPlayer);
+		players.Add(newPlayer);
+		StateHasChanged();
+		newPlayer = new Player();
+	}
+
+	private async Task DeletePlayer(int playerId)
+	{
+		await wishListService.DeleteAsync("Player/DeletePlayer/", playerId);
+		Refresh();
+	}
+}

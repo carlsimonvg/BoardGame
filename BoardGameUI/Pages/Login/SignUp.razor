@@ -1,0 +1,68 @@
+﻿@page  "/signup"
+@using BoardGameModels
+@using BoardGameUI.Data
+@using BoardGameUI.Services
+@using Microsoft.AspNetCore.Components
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@inject IUserService userService
+
+    <EditForm Model="@user" OnValidSubmit="@RegisterUser">
+	    <DataAnnotationsValidator />
+        <div>
+            <br /><br /><br />
+        </div>
+        <div>
+        <h3 style="font-weight:bold; color:#0A3834">Board Game Wish List Register</h3>
+        </div>
+        <div>
+            <br />
+        </div>
+        <div class="col-12 row">
+            <input class="form-control col-12" @bind="user.EmailAddress" placeholder="email address" />
+        </div>
+        <br />
+        <div class="col-12 row">
+            <input type="password" class="form-control col-12" @bind="user.Password" placeholder="password" />
+        </div>
+        <br />
+		<div class="col-12 row" style="display: flex; gap: 10px;">
+            <span class="col-12"></span>
+        <input type="submit" class="form-control col-6 btn btn-primary" value="Sign up" style="width: 100px; padding: 10px;" />
+			<a href="/login" class="form-control col-6 btn btn-primary" style="width: 150px; padding: 10px;">Already a user?</a>
+        </div>
+        <br />
+        <div class="col-12 row" style="text-align:left; font-weight:bold">
+            <span class="col-12">@LoginMesssage</span>
+        </div>
+    </EditForm>
+
+@code {
+
+    private User user;
+    public string LoginMesssage { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        user = new User();
+        return base.OnInitializedAsync();
+    }
+
+    private async Task<bool> RegisterUser()
+    {
+        var returnedUser = await userService.RegisterUserAsync(user);
+
+        if(returnedUser.EmailAddress != null)
+        {   
+            ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(returnedUser);
+            NavigationManager.NavigateTo("/fetchData");
+        }
+        else
+        {
+            LoginMesssage = "Invalid username or password";
+        }        
+        
+        return await Task.FromResult(true);
+    }
+
+}

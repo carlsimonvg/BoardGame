@@ -166,3 +166,72 @@ main[b-fkzjzhlk6t] {
         overflow-y: auto;
     }
 }
+/* _content/BoardGameUI/Shared/TimeSpanInput.razor.rz.scp.css */
+.navbar-toggler[b-iksdj11z0j] {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.top-row[b-iksdj11z0j] {
+    height: 3.5rem;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.navbar-brand[b-iksdj11z0j] {
+    font-size: 1.1rem;
+}
+
+.oi[b-iksdj11z0j] {
+    width: 2rem;
+    font-size: 1.1rem;
+    vertical-align: text-top;
+    top: -2px;
+}
+
+.nav-item[b-iksdj11z0j] {
+    font-size: 0.9rem;
+    padding-bottom: 0.5rem;
+}
+
+    .nav-item:first-of-type[b-iksdj11z0j] {
+        padding-top: 1rem;
+    }
+
+    .nav-item:last-of-type[b-iksdj11z0j] {
+        padding-bottom: 1rem;
+    }
+
+    .nav-item[b-iksdj11z0j]  a {
+        color: #f0ffff;
+        border-radius: 4px;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        line-height: 3rem;
+    }
+
+.nav-item[b-iksdj11z0j]  a.active {
+    background-color: rgba(255,255,255,0.25);
+    color: white;
+}
+
+.nav-item[b-iksdj11z0j]  a:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
+@media (min-width: 641px) {
+    .navbar-toggler[b-iksdj11z0j] {
+        display: none;
+    }
+
+    .collapse[b-iksdj11z0j] {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+    
+    .nav-scrollable[b-iksdj11z0j] {
+        /* Allow sidebar to scroll for tall menus */
+        height: calc(100vh - 3.5rem);
+        overflow-y: auto;
+    }
+}

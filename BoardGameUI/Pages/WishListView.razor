@@ -1,0 +1,100 @@
+﻿@page "/wishList"
+@using BoardGameUI.Services
+@using BoardGameModels
+@inject IWishListService<BoardGame> wishListService
+
+<PageTitle>Wish List</PageTitle>
+
+<AuthorizeView>
+	<NotAuthorized>
+		<p><em>Please Login to use functionality...</em></p>
+	</NotAuthorized>
+	<Authorized>
+		<div style="display: flex; align-items: center; justify-content: space-between;">
+			<h1>Wish List</h1>
+			<button @onclick="Refresh" type="button">
+				<span class="oi oi-loop-circular" aria-hidden="true" title="Refresh"></span>
+			</button>
+		</div>
+
+
+		@if (wishListItems == null)
+		{
+			<p><em>Loading...</em></p>
+		}
+		else
+		{
+			<table class="table">
+				<thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Rating</th>
+					<th>Weight</th>
+					<th>PlayTime</th>
+					<th>Year Published</th>
+					<th>Action</th>
+				</tr>
+				</thead>
+				<tbody>
+				@foreach (var item in wishListItems)
+				{
+					<tr>
+						<NavLink href=@string.Format("/boardGame/{0}", @item.Id)>
+							@item.Id
+						</NavLink>
+						<td>@item.Name</td>
+						<td>@item.Rating.ToString("F2")</td>
+						<td>@item.Weight.ToString("F1")</td>
+						<td>@item.PlayTime</td>
+						<td>@item.YearPublished</td>
+						<td>
+							<button @onclick="() => Buy(item.Id)">
+								<span class="oi oi-dollar" aria-hidden="true" title="Buy this board game"></span>
+							</button>
+								<button @onclick="() => Remove(item.Id)">
+								<span class="oi oi-trash" aria-hidden="true" title="Remove this board game"></span>
+							</button>
+						</td>
+					</tr>
+				}
+				</tbody>
+			</table>
+		}
+	</Authorized>
+</AuthorizeView>
+
+@code {
+    private List<BoardGame>? wishListItems;
+
+    protected override async Task OnInitializedAsync()
+    {
+		wishListItems = await wishListService.GetAllAsync("BoardGame/GetWishList");
+    }
+
+	private async void Refresh()
+	{
+		wishListItems = await wishListService.GetAllAsync("BoardGame/GetWishList");
+		StateHasChanged();
+	}
+
+	private async Task Buy(int boardGameId)
+	{
+		if (wishListItems != null)
+		{
+			var boardGame = wishListItems.First(x => x.Id == boardGameId);
+			await wishListService.SaveAsync("BoardGame/BuyBoardGame", boardGame);
+			wishListItems.Remove(boardGame);
+			StateHasChanged();
+		}
+	}
+
+	private async Task Remove(int boardGameId)
+	{
+		if (wishListItems != null)
+		{
+			await wishListService.DeleteAsync("BoardGame/DeleteBoardGame/", boardGameId);
+			Refresh();
+		}
+	}
+}

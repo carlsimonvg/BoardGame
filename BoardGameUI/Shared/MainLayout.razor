@@ -1,4 +1,7 @@
-﻿@inherits LayoutComponentBase
+﻿@using BoardGameUI.Data
+@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Board Game Wish List</PageTitle>
 
@@ -7,13 +10,32 @@
         <NavMenu />
     </div>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://boardgamegeek.com/" target="_blank">Board Game Geek</a>
-        </div>
+	<main>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+		<div class="top-row px-4">
+			<AuthorizeView>
+				<Authorized>
+					<a href="/" @onclick="(() => Logout())">Logout</a>
+				</Authorized>
+				<NotAuthorized>
+					<a href="/login">Login</a>
+				</NotAuthorized>
+			</AuthorizeView>
+
+			<a href="https://boardgamegeek.com/" target="_blank">Board Game Geek</a>
+		</div>
+
+		<article class="content px-4">
+			@Body
+		</article>
+	</main>
 </div>
+
+
+@code{
+	public async Task Logout()
+	{
+		await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsLoggedOut();
+		NavigationManager.NavigateTo("/login");
+	}
+}

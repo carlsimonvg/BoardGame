@@ -1,0 +1,83 @@
+﻿@page  "/login"
+@using System.Security.Claims
+@using BoardGameModels
+@using BoardGameUI.Data
+@using BoardGameUI.Services
+@using Microsoft.AspNetCore.Components
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorageService
+@inject IUserService userService
+@inject IJSRuntime jsRunTime
+
+<EditForm Model="@user" OnValidSubmit="@ValidateUser">
+    <div>
+        <br /><br /><br />
+    </div>
+    <div>
+        <h3 style="font-weight:bold; color:#0A3834">Board Game Wish List Login</h3>
+    </div>
+    <div>
+        <br />
+    </div>
+    <div class="col-12 row">
+        <input class="form-control col-10" @bind="user.EmailAddress" placeholder="email address" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <input type="password" class="form-control col-10" @bind="user.Password" placeholder="password" />
+    </div>
+    <br />
+    <div class="col-12 row" style="display: flex; gap: 10px;">
+        <span class="col-12"></span>
+        <input type="submit" class="form-control col-6 btn btn-primary" value="Login" style="width: 100px; padding: 10px;" />
+        <a href="/signup" class="form-control col-6 btn btn-primary" style="width: 100px; padding: 10px;">Sign up</a>
+    </div>
+    <br />
+    <div class="col-12 row" style="text-align:left; font-weight:bold">
+        <span class="col-12">@LoginMesssage</span>
+    </div>
+</EditForm>
+
+@code {
+
+    private User user;
+    public string LoginMesssage { get; set; }
+    ClaimsPrincipal claimsPrincipal;
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        user = new User();
+
+        claimsPrincipal = (await authenticationStateTask).User;
+
+        if (claimsPrincipal.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+
+    }
+
+    private async Task<bool> ValidateUser()
+    {
+        //assume that user is valid
+        //call an API
+        var returnedUser = await userService.LoginAsync(user);
+
+        if (returnedUser.EmailAddress != null)
+        {
+            await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(returnedUser);
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            LoginMesssage = "Invalid username or password";
+        }
+
+        return await Task.FromResult(true);
+    }
+
+}

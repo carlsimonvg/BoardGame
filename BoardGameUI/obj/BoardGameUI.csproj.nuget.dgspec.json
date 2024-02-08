@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\SimonVG\\source\\repos\\Boardgame\\BoardGameUI\\BoardGameUI.csproj": {}
+    "C:\\Users\\SimonVG\\source\\repos\\BoardGame\\BoardGameUI\\BoardGameUI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\SimonVG\\source\\repos\\Boardgame\\BoardGameModels\\BoardGameModels.csproj": {
+    "C:\\Users\\SimonVG\\source\\repos\\BoardGame\\BoardGameModels\\BoardGameModels.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\SimonVG\\source\\repos\\Boardgame\\BoardGameModels\\BoardGameModels.csproj",
+        "projectUniqueName": "C:\\Users\\SimonVG\\source\\repos\\BoardGame\\BoardGameModels\\BoardGameModels.csproj",
         "projectName": "BoardGameModels",
-        "projectPath": "C:\\Users\\SimonVG\\source\\repos\\Boardgame\\BoardGameModels\\BoardGameModels.csproj",
+        "projectPath": "C:\\Users\\SimonVG\\source\\repos\\BoardGame\\BoardGameModels\\BoardGameModels.csproj",
         "packagesPath": "C:\\Users\\SimonVG\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\SimonVG\\source\\repos\\Boardgame\\BoardGameModels\\obj\\",
+        "outputPath": "C:\\Users\\SimonVG\\source\\repos\\BoardGame\\BoardGameModels\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -61,18 +61,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\SimonVG\\source\\repos\\Boardgame\\BoardGameUI\\BoardGameUI.csproj": {
+    "C:\\Users\\SimonVG\\source\\repos\\BoardGame\\BoardGameUI\\BoardGameUI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\SimonVG\\source\\repos\\Boardgame\\BoardGameUI\\BoardGameUI.csproj",
+        "projectUniqueName": "C:\\Users\\SimonVG\\source\\repos\\BoardGame\\BoardGameUI\\BoardGameUI.csproj",
         "projectName": "BoardGameUI",
-        "projectPath": "C:\\Users\\SimonVG\\source\\repos\\Boardgame\\BoardGameUI\\BoardGameUI.csproj",
+        "projectPath": "C:\\Users\\SimonVG\\source\\repos\\BoardGame\\BoardGameUI\\BoardGameUI.csproj",
         "packagesPath": "C:\\Users\\SimonVG\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\SimonVG\\source\\repos\\Boardgame\\BoardGameUI\\obj\\",
+        "outputPath": "C:\\Users\\SimonVG\\source\\repos\\BoardGame\\BoardGameUI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -95,8 +95,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\SimonVG\\source\\repos\\Boardgame\\BoardGameModels\\BoardGameModels.csproj": {
-                "projectPath": "C:\\Users\\SimonVG\\source\\repos\\Boardgame\\BoardGameModels\\BoardGameModels.csproj"
+              "C:\\Users\\SimonVG\\source\\repos\\BoardGame\\BoardGameModels\\BoardGameModels.csproj": {
+                "projectPath": "C:\\Users\\SimonVG\\source\\repos\\BoardGame\\BoardGameModels\\BoardGameModels.csproj"
               }
             }
           }
@@ -111,6 +111,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Blazored.SessionStorage": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
@@ -135,7 +139,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

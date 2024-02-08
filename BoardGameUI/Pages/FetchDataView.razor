@@ -1,0 +1,102 @@
+﻿@page "/"
+@using BoardGameUI.Services
+@using BoardGameModels
+@using Microsoft.AspNetCore.Components
+@inject IWishListService<BoardGame> wishListService
+@inject BoardGameService BoardGameService
+
+<PageTitle>Search Board Games</PageTitle>
+
+<div style="display: flex; align-items: center; justify-content: space-between;">
+	<h1>Search Board Games</h1>
+	<div style="display: flex; align-items: center;">
+		<input type="text" style="width: 200px;" @bind="searchText" placeholder="Search" @onkeyup="HandleKeyPress">
+		<button @onclick="Search" type="button">
+			<span class="oi oi-magnifying-glass" aria-hidden="true" title="Search"></span>
+		</button>
+	</div>
+</div>
+
+
+@if (searchItems == null)
+{
+    <p><em>Please search for a board game using the search bar...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+	            <th>Year Published</th>
+	            <AuthorizeView>
+					<Authorized>
+					<th>Action</th>
+					</Authorized>
+	            </AuthorizeView>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var searchItem in searchItems)
+            {
+                <tr>
+                    <NavLink href=@string.Format("/boardGame/{0}", @searchItem.Id)>
+                        @searchItem.Id
+	                </NavLink>
+                    <td>@searchItem.Name</td>
+	                <td>@searchItem.YearPublished</td>
+	                <AuthorizeView>
+						<Authorized>
+							<td>
+								<button @onclick="()=>Buy(searchItem.Id)" >
+									<span class="oi oi-dollar" aria-hidden="true" title="Buy this board game"></span>
+								</button>
+								<button @onclick="()=>AddToWishlist(searchItem.Id)">
+									<span class="oi oi-task" aria-hidden="true" title="Add to Wishlist"></span>
+								</button>
+							</td>
+							</Authorized>
+	                </AuthorizeView>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private List<BoardGame>? searchItems;
+	private string searchText = "";
+	
+	private void HandleKeyPress(KeyboardEventArgs e)
+	{
+		if (e.Key == "Enter")
+		{
+			Search();
+		}
+	}
+
+	private async void Search()
+	{
+		if (!string.IsNullOrEmpty(searchText))
+		{
+			searchItems = await BoardGameService.SearchBoardGames(searchText);
+
+			StateHasChanged();
+		}
+	}
+
+	private async Task Buy(int boardGameId)
+	{
+		var boardGame = await BoardGameService.GetBoardGameAsync(boardGameId);
+		await wishListService.SaveAsync("BoardGame/BuyBoardGame", boardGame);
+	}
+
+	private async Task AddToWishlist(int boardGameId)
+	{
+		var boardGame = await BoardGameService.GetBoardGameAsync(boardGameId);
+		await wishListService.SaveAsync("BoardGame/WishListBoardGame", boardGame);
+	}
+
+}

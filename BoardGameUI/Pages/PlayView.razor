@@ -1,0 +1,164 @@
+﻿@page "/Play"
+@using BoardGameUI.Services
+@using BoardGameModels
+@inject NavigationManager NavigationManager
+@inject IWishListService<Player> wishListServiceForPlayers
+@inject IWishListService<BoardGame> wishListServiceForBoardGames
+@inject IWishListService<Play> wishListServiceForPlay
+@inject IUserService userService
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Plays</PageTitle>
+
+<AuthorizeView>
+	<NotAuthorized>
+		<p><em>Please Login to use functionality...</em></p>
+	</NotAuthorized>
+	<Authorized>
+		
+		<div style="display: flex; align-items: center; justify-content: space-between;">
+			<h1>Plays</h1>
+		</div>
+
+		@if (players == null)
+		{
+			<p><em>Loading...</em></p>
+		}
+		else
+		{
+			<div class="row">
+				<div class="col-md-6">
+					<!-- Left Column for Data Input -->
+					<h4>Add Play</h4>
+					<EditForm Model="@newPlay" OnValidSubmit="@AddPlay">
+						<ChildContent Context="playerContext">
+							<DataAnnotationsValidator/>
+							<div class="form-group row">
+								<label class="col-form-label col-md-4" for="boardGame">Select a Boardgame:</label>
+								<InputSelect class="col-md-7" id="boardGame" @bind-Value="newPlay.BoardGameId">
+									<option value="">@((newPlay.BoardGameId == null) ? "Please select a value" : "")</option>
+									@foreach (var boardGame in boardGames)
+									{
+										<option value="@boardGame.Id">@boardGame.Name</option>
+									}
+								</InputSelect>
+								<ValidationMessage For="@(() => newPlay.BoardGameId)" />
+							</div>
+							<div class="form-group row">
+								<label class="col-form-label col-md-4" for="player">Select a Winner:</label>
+								<InputSelect class="col-md-7" id="player" @bind-Value="newPlay.PlayerId">
+									@foreach (var player in players)
+									{
+										<option value="@player.Id">@player.Name</option>
+									}
+								</InputSelect>
+								<ValidationMessage For="@(() => newPlay.PlayerId)" />
+							</div>
+							<div class="form-group row">
+								<TimeSpanInput Label="Time Played:" Value="@newPlay.TimePlayed" ValueChanged="UpdateTimePlayed" />
+								<ValidationMessage For="@(() => newPlay.TimePlayed)" />
+							</div>
+							<div class="form-group row">
+								<label for="Completed" class="col-form-label col-md-4">Completed:</label>
+								<div class="col-md-7">
+									<input type="checkbox" class="form-check" id="Completed" @bind="newPlay.Completed" />
+									<ValidationMessage For="@(() => newPlay.Completed)" />
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="DatePlayed" class="col-form-label col-md-4">Date Played:</label>
+								<div class="col-md-7">
+									<input type="date" class="form-control" id="DatePlayed" @bind="newPlay.DatePlayed"/>
+									<ValidationMessage For="@(() => newPlay.DatePlayed)"/>
+								</div>
+							</div>
+							<br>
+							<div class="col-12 row">
+								<div class="col-md-6">
+									<input type="submit" class="form-control btn btn-primary" style="width: 100px; padding: 10px;" value="Save"/>
+								</div>
+							</div>
+
+							<br>
+						</ChildContent>
+					</EditForm>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<!-- Right Column for Grid -->
+					<br><h4>Play Grid</h4><br>
+					<table class="table table-bordered">
+						<thead>
+						<tr>
+							<th>Board Game</th>
+							<th>Winner</th>
+							<th>Date Played</th>
+							<th>Time Played</th>
+							<th>Delete Play</th>
+						</tr>
+						</thead>
+						<tbody>
+						@foreach (var play in plays)
+						{
+							<tr>
+								<td>@play.BoardGame?.Name</td>
+								<td>@play.Winner?.Name</td>
+								<td>@play.DatePlayed</td>
+								<td>@play.TimePlayed</td>
+								<td>
+										<button @onclick="() => DeletePlay(play.Id)">
+											<span class="oi oi-trash" aria-hidden="true" title="Delete this play"></span>
+									</button>
+								</td>
+							</tr>
+						}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		}
+	</Authorized>
+</AuthorizeView>
+
+@code {
+	private List<Player>? players;
+	private Play newPlay = new Play { BoardGameId = null };
+	private List<BoardGame>? boardGames;
+	private List<Play>? plays;
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (players == null)
+		{
+			plays = await wishListServiceForPlay.GetAllAsync("Play/GetPlays");
+			boardGames = await wishListServiceForBoardGames.GetAllAsync("BoardGame/GetOwnedBoardGames");
+			players = await wishListServiceForPlayers.GetAllAsync("Player/GetPlayers");
+		}
+		await base.OnInitializedAsync();
+	}
+
+	private async void Refresh()
+	{
+		plays = await wishListServiceForPlay.GetAllAsync("Play/GetPlays");
+		StateHasChanged();
+	}
+
+	private void UpdateTimePlayed(TimeSpan value)
+	{
+		newPlay.TimePlayed = value;
+	}
+
+	private async Task AddPlay()
+	{
+		await wishListServiceForPlay.SaveAsync("Play/CreatePlay", newPlay);
+		Refresh();
+		newPlay = new Play();
+	}
+
+	private async Task DeletePlay(int playId)
+	{
+		await wishListServiceForPlay.DeleteAsync("Play/DeletePlay/", playId);
+		Refresh();
+	}
+}

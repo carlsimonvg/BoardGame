@@ -1,7 +1,9 @@
 ﻿@page "/boardGame/{boardGameId:int}"
-@using BoardGameUI.Data
+@using BoardGameUI.Services
 @using BoardGameModels
+@inject NavigationManager NavigationManager
 @inject BoardGameService BoardGameService
+@inject IWishListService<BoardGame> wishListService
 
 @if (boardGame != null)
 {
@@ -10,8 +12,7 @@
 	<hr/>
 
 	<div class="col-12 row">
-
-
+		
 		<div style="display: flex; -ms-align-items: center; -o-align-items: center; -webkit-align-items: center; align-items: center;">
 			<img src="@boardGame.ImageUrl" alt="Your Image" style="max-width: 500px; max-height: 500px; margin-right: 20px;">
 			<ul>
@@ -36,6 +37,21 @@
 				<li>
 					<p>@boardGame.Description</p>
 				</li>
+				<li>
+					<button @onclick="GoBack">
+						<span class="oi oi-arrow-circle-left" aria-hidden="true" title="Go Back"></span>
+					</button>
+					<AuthorizeView>
+						<Authorized>
+							<button @onclick="Buy" >
+								<span class="oi oi-dollar" aria-hidden="true" title="Buy this board game"></span>
+								</button>
+							<button @onclick="AddToWishlist">
+								<span class="oi oi-task" aria-hidden="true" title="Add to Wishlist"></span>
+							</button>
+							</Authorized>
+					</AuthorizeView>
+				</li>
 			</ul>
 		</div>
 	</div>
@@ -50,5 +66,20 @@
 	protected override async Task OnInitializedAsync()
 	{
 		boardGame = await BoardGameService.GetBoardGameAsync(boardGameId);
+	}
+
+	private void GoBack()
+	{
+		NavigationManager.NavigateTo("javascript:history.go(-1)");
+	}
+
+	private async Task Buy()
+	{
+		await wishListService.SaveAsync("BoardGame/BuyBoardGame", boardGame);
+	}
+
+	private async Task AddToWishlist()
+	{
+		await wishListService.SaveAsync("BoardGame/WishListBoardGame", boardGame);
 	}
 }
